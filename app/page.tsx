@@ -20,6 +20,21 @@ export default function Home() {
   const [flashcardSets, setFlashcardSets] = useState<FlashcardSet[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+   // Load messages from localStorage on initial render
+   useEffect(() => {
+    const savedMessages = localStorage.getItem('chatMessages');
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    }
+  }, []);
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('chatMessages', JSON.stringify(messages));
+    }
+  }, [messages]);
+
   useEffect(() => {
     fetchFlashcardSets();
   }, []);
@@ -72,7 +87,8 @@ export default function Home() {
     <div className="flex h-screen">
       <Sidebar flashcardSets={flashcardSets} />
       <main className="flex-1 flex flex-col">
-        <ChatMessages messages={messages} />
+        <ChatMessages messages={messages} isLoading={isLoading}/>
+        
         <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
       </main>
       <ToastContainer />

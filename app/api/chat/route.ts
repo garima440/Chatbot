@@ -34,7 +34,9 @@ export async function POST(req: NextRequest) {
             }
           ]
         }`
-      : "You are StudyFetch, an AI tutor. Respond naturally to help with learning.";
+      : "You are StudyFetch, an AI tutor. Respond naturally to help with learning or follow the conversation. Provide supportive, clear, and engaging assistance. ";
+
+
 
     const response = await anthropic.messages.create({
       model: "claude-3-5-sonnet-20241022",
